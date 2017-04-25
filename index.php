@@ -20,5 +20,5 @@ add_action('admin_menu', "raportMenu");
 
 //функция отвечает за добавление пункта меню Рапорт
 function raportMenu() {
-    add_menu_page('Меню Рапорта', 'Рапорт', 8, __FILE__, 'RaportIndex',"dashicons-clipboard", "65.3");
+    add_menu_page('Меню Рапорта', 'Рапорт', 8, __FILE__, 'raportIndex',"dashicons-clipboard", "65.3");
 }
