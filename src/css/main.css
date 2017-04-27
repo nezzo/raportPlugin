@@ -1,27 +1,37 @@
-.container-raport{
-    
-    position: relative;
-    width: 90%;
-    height: auto;
-    margin-left: 5%;
-    margin-right: 5%;
-}
 div#tabs {
     height: 30px;
     width: 100%;
     margin-top: 30px;
+    margin-left: 20px;
 }
 div.htabs a {
     margin-right: 100px;
     text-decoration: none;
-    border: 1px solid black;
     padding: 10px;
     cursor: pointer;
+    color:white;
 
 }
 .selectedTabs{
-    color:black;
+    color: #fff;
+    background-color: #31b0d5 !important;
+    border-color: #269abc !important;
 }
 .downTabs {
     margin-top: 20px;
+}
+.raportTable{
+    width: 100%;
+}
+div#tab-city h3 {
+    margin-left: 20px;
+    margin-top: 40px;
+}
+#tab-instant h3 {
+    margin-left: 20px;
+    margin-top: 40px;
+}
+ #tab-fio  h3 {
+    margin-left: 20px;
+    margin-top: 40px;
 }

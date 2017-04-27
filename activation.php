@@ -12,8 +12,8 @@ function raportActiv(){
     //cоздаем и проверяем таблицу города
     $city = "CREATE TABLE $table_city (
 			id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			name varchar(25) NOT NULL,
-                        url varchar(30) NOT NULL
+                        term_id int(11) NOT NULL,
+                        UNIQUE(term_id)
  	);";
 	 dbDelta( $city );
         
@@ -23,8 +23,8 @@ function raportActiv(){
         //cоздаем и проверяем таблицу инстанции
          $instant = "CREATE TABLE $table_instant (
 			id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			name varchar(25) NOT NULL,
-                        url varchar(30) NOT NULL
+                        term_id int(11) NOT NULL,
+                        UNIQUE(term_id)
 	);";
 	 dbDelta($instant);
         
