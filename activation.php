@@ -36,7 +36,8 @@ function raportActiv(){
 			fio varchar(25) NOT NULL,
                         doljnost varchar(50) NOT NULL,
                         mestoWork varchar(50) NOT NULL,
-                        description varchar(100) NOT NULL
+                        description varchar(100) NOT NULL,
+                        UNIQUE(fio)
 	);";
 	 dbDelta($sub);
     

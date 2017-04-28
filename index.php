@@ -22,6 +22,20 @@ add_action('admin_menu', "raportMenu");
 //регистрируем функцию для ajax хуков(получаем данные с  таблицы и работаем с базой)
 add_action('wp_ajax_raportTable', 'raportTable_callback');
 
+//регистрируем функцию для ajax хуков(удаление не нужных строк в таблице)
+add_action('wp_ajax_delStr', 'delStr_callback');
+
+//1 - это порядок выполнение функции (очередность если есть еще зацепки за хук), 2 - количество 
+//параметров передаваемых функции
+add_action('wp_getData', 'getData', 1,2);
+
+//регистрируем хук по выводу ЧПУ и имен категорий
+add_action('wp_selectTable', 'selectTable',1,3);
+
+//регистрируем хук по выводу субъектов
+add_action('wp_getSub','getSub',1);
+ 
+
 //функция отвечает за добавление пункта меню Рапорт
 function raportMenu() {
     add_menu_page('Меню Рапорта', 'Рапорт', 8, __FILE__, 'raportIndex',"dashicons-clipboard", "65.3");
@@ -36,11 +50,6 @@ function raportTable_callback() {
         $urlInstant = trim($_POST['urlInstant']);
         $subjectMas = $_POST['mas'];
         
-        
-         #TODO  надо еще сделать функцию которая будет выводить данные для каждой таблицы (Города, Инстанции,
-        #Субъекты)  
-        
-
         if(!empty($urlCity)){
              
             //получаем id  рубрики
@@ -105,4 +114,39 @@ function raportTable_callback() {
         
  
 	wp_die(); // выход нужен для того, чтобы в ответе не было ничего лишнего, только то что возвращает функция
+}
+
+//функция по удалению не нужных строк с базы
+function delStr_callback(){
+    global $wpdb;
+    
+    $btnCity = $_POST['getIdStr'];
+    $btnInstant = $_POST['instant'];
+    $btnSub = $_POST['sub']; 
+    
+    
+    //удаляем строки в городах
+     if(!empty($btnCity)){
+         $dellCity = $wpdb->delete($wpdb->prefix . "raportTableCity",
+                                                array( 'id' => $btnCity ));  
+        echo $dellCity;
+    }
+    
+    //удаляем строки в инстанциях
+     if(!empty($btnInstant)){
+         $dellInstant = $wpdb->delete($wpdb->prefix . "raportTableInstant",
+                                                array( 'id' => $btnInstant ));  
+        echo $dellInstant;
+    }
+    
+    //удаляем строки в субъектах
+     if(!empty($btnSub)){
+         $dellSub = $wpdb->delete($wpdb->prefix . "raportTableSub",
+                                                array( 'id' => $btnSub ));  
+        echo $dellSub;
+    }
+    
+    
+   wp_die(); // выход нужен для того, чтобы в ответе не было ничего лишнего, только то что возвращает функция
+
 }

@@ -1,6 +1,3 @@
-// #TODO надо создать 3 события по клику, и все слать на одну функцию где сделать 
-// !empty  если есть какие то данные то работаем с ними (постом ловим данные и по условию срабатываем)
-
 jQuery(document).ready(function(){
    jQuery('#tabs a').tabs();
    
@@ -20,8 +17,12 @@ jQuery(document).ready(function(){
                     if(!!response){
                        alert("Город добавлен!"); 
                        
-                        //после занесение в базу данных очищаем поля
+                        /*после занесение в базу данных очищаем поля
                        jQuery(".urlCity").val(" ");
+                       */
+                      
+                       //перезагружаем страницу
+                       location.reload();
                     }else{
                         alert("Ошибка!");
                     }
@@ -47,8 +48,12 @@ jQuery(document).ready(function(){
                          if(!!response){
                             alert("Инстанция добавлена!"); 
                     
-                            //после занесение в базу данных очищаем поля
+                            /*после занесение в базу данных очищаем поля
                             jQuery(".urlInstant").val(" ");
+                            */
+                           
+                            //перезагружаем страницу
+                            location.reload();
 
                          }else{
                              alert("Ошибка!");
@@ -79,13 +84,15 @@ jQuery(document).ready(function(){
                     if(!!response){
                             alert("Субъект добавлен!"); 
                     
-                            //после занесение в базу данных очищаем поля
+                            /*после занесение в базу данных очищаем поля
                             jQuery(".subjectFio").val(" ");
                             jQuery(".subjectDoljnost").val(" ");
                             jQuery(".subjectWork").val(" ");
                             jQuery(".subjectInfo").val(" ");
-                            
-                            
+                            */
+                           
+                            //перезагружаем страницу
+                            location.reload();
 
                          }else{
                              alert("Ошибка!");
@@ -95,7 +102,105 @@ jQuery(document).ready(function(){
     });
     
     
-   
+    //функция по удалению строк в таблице Города
+    jQuery('.btnCity').click(function(){
+        
+     //получаем в текущей  строке значение тега td (ЧПУ) по которой кликнули и удаляем с базы    
+     //var city = jQuery(this).closest('tr').find('td:nth-child(2)').text();
+     
+     //получаем id  строки для удаления по id  в базе плагина
+     var getIdStr = jQuery(this).closest('tr').attr('id');
+      //проверяем если не пустая переменная то  выполняем условие
+        if(!!getIdStr){
+            var btnData = {
+			action: 'delStr',
+			getIdStr: getIdStr
+		};
+
+		// с версии 2.8 'ajaxurl' всегда определен в админке
+		jQuery.post( ajaxurl, btnData, function(response) {
+                    if(!!response){
+                            
+                           //alert(response);
+
+                         }else{
+                             alert("Ошибка!");
+                         }
+ 		});
+            }
+            
+            //удаляем нужную нам строку 
+            jQuery(this).closest('tr').remove();
+    
+      
+    });
+    
+    
+   //функция по удалению строк в таблице Инстанции
+    jQuery('.btnInstant').click(function(){
+        
+     //получаем в текущей  строке значение тега td (ЧПУ) по которой кликнули и удаляем с базы    
+     //var city = jQuery(this).closest('tr').find('td:nth-child(2)').text();
+     
+     //получаем id  строки для удаления по id  в базе плагина
+     var instant = jQuery(this).closest('tr').attr('id');
+      //проверяем если не пустая переменная то  выполняем условие
+        if(!!instant){
+            var btnData = {
+			action: 'delStr',
+			instant: instant
+		};
+
+		// с версии 2.8 'ajaxurl' всегда определен в админке
+		jQuery.post( ajaxurl, btnData, function(response) {
+                    if(!!response){
+                            
+                           //alert(response);
+
+                         }else{
+                             alert("Ошибка!");
+                         }
+ 		});
+            }
+            
+            //удаляем нужную нам строку 
+            jQuery(this).closest('tr').remove();
+    
+      
+    });
+    
+    //функция по удалению строк в таблице Субъекты
+    jQuery('.btnSub').click(function(){
+        
+     //получаем в текущей  строке значение тега td (ЧПУ) по которой кликнули и удаляем с базы    
+     //var city = jQuery(this).closest('tr').find('td:nth-child(2)').text();
+     
+     //получаем id  строки для удаления по id  в базе плагина
+     var sub = jQuery(this).closest('tr').attr('id');
+      //проверяем если не пустая переменная то  выполняем условие
+        if(!!sub){
+            var btnData = {
+			action: 'delStr',
+			sub: sub
+		};
+
+		// с версии 2.8 'ajaxurl' всегда определен в админке
+		jQuery.post( ajaxurl, btnData, function(response) {
+                    if(!!response){
+                            
+                           //alert(response);
+
+                         }else{
+                             alert("Ошибка!");
+                         }
+ 		});
+            }
+            
+            //удаляем нужную нам строку 
+            jQuery(this).closest('tr').remove();
+    
+      
+    });
    
    
     
