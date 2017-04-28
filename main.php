@@ -118,14 +118,14 @@ function selectTable($funcRaport,$table,$btn){
     
     global $wpdb;
     
-    $selectData = $wpdb->get_results($wpdb->prepare("SELECT term_id  FROM $table "));
+    $selectData = $wpdb->get_results("SELECT term_id  FROM $table ");
  
     foreach ($selectData as $dataId) {
              
             //с помощью JOIN получаем с таблиц данные имена рубрик и ЧПУ
             $selectNameUrl = $wpdb->get_results($wpdb->prepare("SELECT ".$table.".id, name, slug  FROM $wpdb->terms
                             INNER JOIN $table on ".$table.".term_id = wp_terms.term_id
-                            WHERE wp_terms.term_id = $dataId->term_id"));
+                            WHERE wp_terms.term_id = %d",$dataId->term_id));
             
             if(!empty($selectNameUrl)){
                
@@ -166,7 +166,7 @@ function getSub(){
     //таблица субъекта
     $table = $wpdb->prefix . 'raportTableSub';
     
-    $selectSub = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table "));
+    $selectSub = $wpdb->get_results("SELECT * FROM $table ");
  
      foreach ($selectSub as $sub) {
         
