@@ -33,11 +33,11 @@ function raportActiv(){
         //cоздаем и проверяем таблицу субъекты
          $sub = "CREATE TABLE $table_sub (
 			id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			fio varchar(25) NOT NULL,
+			name varchar(25) NOT NULL,
                         doljnost varchar(50) NOT NULL,
                         mestoWork varchar(50) NOT NULL,
                         description varchar(100) NOT NULL,
-                        UNIQUE(fio)
+                        UNIQUE(name)
 	);";
 	 dbDelta($sub);
     

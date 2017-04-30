@@ -113,7 +113,7 @@ function raportTable_callback() {
              //заносим в таблицу данные (субъект)
                     $insertSubject = $wpdb->insert(
                                     $wpdb->prefix . "raportTableSub",
-                                    array( 'fio' => $subjectMas[0],
+                                    array( 'name' => $subjectMas[0],
                                            'doljnost' => $subjectMas[1],
                                            'mestoWork' => $subjectMas[2],
                                            'description' => $subjectMas[3],

@@ -172,7 +172,7 @@ function getSub(){
         
      ?>
               <tr id="<?=$sub->id?>">
-                    <td><?=$sub->fio?></td>
+                    <td><?=$sub->name?></td>
                     <td><?=$sub->doljnost?></td>
                     <td><?=$sub->mestoWork?></td>
                     <td><?=$sub->description?></td>
