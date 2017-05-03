@@ -52,7 +52,7 @@ $meta_fields = array(
 
 //функция отвечает за добавление пункта меню Рапорт
 function raportMenu() {
-    add_menu_page('Меню Рапорта', 'Рапорт', 8, __FILE__, 'raportIndex',"dashicons-clipboard", "65.3");
+    add_menu_page('Меню Рапорта', 'Рапорт', 'edit_pages', __FILE__, 'raportIndex',"dashicons-clipboard", "65.3");
 }
  
 
@@ -127,7 +127,7 @@ function raportTable_callback() {
          }
         
  
-	wp_die(); // выход нужен для того, чтобы в ответе не было ничего лишнего, только то что возвращает функция
+    wp_die(); // выход нужен для того, чтобы в ответе не было ничего лишнего, только то что возвращает функция
 }
 
 //функция по удалению не нужных строк с базы
@@ -195,9 +195,14 @@ echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce
                 <td>';  
                 switch($field['type']) {  
                    // Зона Текста 
-                    case 'textarea':  
+                    case 'textarea': 
+                    if(!empty($field['desc'])){
+                        $desc = $field['desc'];
+                    }else{
+                        $desc = "";
+                    } 
                         echo '<textarea name="'.$field['id'].'" id="'.$field['id'].'" cols="60" rows="4">'.$meta.'</textarea> 
-                            <br /><span class="description">'.$field['desc'].'</span>';  
+                            <br /><span class="description">'.$desc.'</span>';  
                     break;
                 }
         echo '</td></tr>';  
@@ -209,28 +214,48 @@ echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce
 function save_raport_meta_fields($post_id) {  
     global $meta_fields;  // Массив с нашими полями
  
-    // проверяем наш проверочный код 
-    if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__)))   
-        return $post_id;  
+     if(!empty($_POST['custom_meta_box_nonce'])){
+      // проверяем наш проверочный код 
+      if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__)))   
+      return $post_id;  
+        
+     }
+    
+        
     // Проверяем авто-сохранение 
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)  
         return $post_id;  
-    // Проверяем права доступа  
-    if ('page' == $_POST['post_type']) {  
-        if (!current_user_can('edit_page', $post_id))  
-            return $post_id;  
-        } elseif (!current_user_can('edit_post', $post_id)) {  
-            return $post_id;  
-    }  
+
+    if(!empty($_POST['post_type'])){
+        // Проверяем права доступа  
+        if ('page' == $_POST['post_type']) {  
+            if (!current_user_can('edit_page', $post_id))  
+                return $post_id;  
+            } elseif (!current_user_can('edit_post', $post_id)) {  
+                return $post_id;  
+        }       
+
+    }
+    
  
     // Если все отлично, прогоняем массив через foreach
     foreach ($meta_fields as $field) {  
-        $old = get_post_meta($post_id, $field['id'], true); // Получаем старые данные (если они есть), для сверки
-        $new = $_POST[$field['id']];  
-        if ($new && $new != $old) {  // Если данные новые
-            update_post_meta($post_id, $field['id'], $new); // Обновляем данные
-        } elseif ('' == $new && $old) {  
-            delete_post_meta($post_id, $field['id'], $old); // Если данных нету, удаляем мету.
-        }  
+          
+          $old = get_post_meta($post_id, $field['id'], true); // Получаем старые данные (если они есть), для сверки
+   
+	  //принимаем постом данные с поля textarea
+          if(!empty($_POST[$field['id']])){
+	          	$new = $_POST[$field['id']];
+	          	 
+	            if ($new && $new != $old) {  // Если данные новые
+	            update_post_meta($post_id, $field['id'], $new); // Обновляем данные
+	            } elseif ('' == $new && $old) {  
+	                delete_post_meta($post_id, $field['id'], $old); // Если данных нету, удаляем мету.
+	            } 
+          }
+	    
+       
+         
+
     } // end foreach  
 }  
